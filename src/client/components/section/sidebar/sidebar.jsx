@@ -5,6 +5,7 @@ import { IoMdSearch } from "react-icons/io";
 import ChatConversation from '../../chatconversation';
 import Body from '../../body/body';
 import { LiaGhostSolid } from 'react-icons/lia';
+import { MdDarkMode,MdOutlineDarkMode } from "react-icons/md";
 import { CgDarkMode } from 'react-icons/cg';
 import { useDispatch, useSelector } from 'react-redux';
 import { tootgleTheme } from "../sectionSlice";
@@ -29,7 +30,7 @@ const data = [
     },
 
 ]
-const messageLength = data.length
+
 
 const Sidebar = () => {
     const selectedConversation = useSelector((state)=>state.sidebar.conversationKey)
@@ -47,12 +48,12 @@ const Sidebar = () => {
                         onClick={() => dispatch(tootgleTheme())}
                         defaultSelected
                         size="lg"
-                        color="primary"
+
                         thumbIcon={({ isSelected, className }) =>
                             isSelected ? (
-                                <LiaGhostSolid className={className} />
+                                <MdOutlineDarkMode className={className} />
                             ) : (
-                                <CgDarkMode className={className} />
+                                <MdDarkMode className={className} />
                             )
                         }
                     >
