@@ -1,25 +1,30 @@
-import { Avatar, Badge, Input, Listbox, ListboxItem } from '@nextui-org/react'
+import { Avatar, Badge, Button, Divider, Input, Listbox, ListboxItem, Switch } from '@nextui-org/react'
 import React, { useState } from 'react'
 // import SearchIcon from '@mui/icons-material/Search';
 import { IoMdSearch } from "react-icons/io";
 import ChatConversation from '../../chatconversation';
 import Body from '../../body/body';
+import { LiaGhostSolid } from 'react-icons/lia';
+import { CgDarkMode } from 'react-icons/cg';
+import { useDispatch, useSelector } from 'react-redux';
+import { tootgleTheme } from "../sectionSlice";
+import { selectConversation } from './sidebarSlice';
 
 const data = [
     {
-        
+
         message: "Hi Udayan this is newly make. check it out..!"
     },
     {
-        
+
         message: "Udayan agrabad ai tara"
     },
     {
-        
+
         message: "Bhai deshe ashlam"
     },
     {
-        
+
         message: "Udayan ! agrabad darai achi. ekhon ber how!"
     },
 
@@ -27,20 +32,34 @@ const data = [
 const messageLength = data.length
 
 const Sidebar = () => {
+    const selectedConversation = useSelector((state)=>state.sidebar.conversationKey)
 
-    const [selectedKeys, setSelectedKeys] = useState(0);
+    // const [selectedKeys, setSelectedKeys] = useState(null);
+    const dispatch = useDispatch();
 
     return (
         <>
-            {/* <div className='mx-2'> */}
+            <div className=''>
+                <div className='p-3 flex flex-row justify-between items-center'>
 
-            <div className='p-4'>
-
-                <div className='mb-4'>
-                    <Badge content={data.length} color="primary" shape="circle" placement='top-right'>
-                        <h1 className='mr-6'>Message</h1>
-                    </Badge>
+                    <span className='text-sm whitespace-nowrap overflow-hidden text-ellipsis'>Picaso</span>
+                    <Switch
+                        onClick={() => dispatch(tootgleTheme())}
+                        defaultSelected
+                        size="lg"
+                        color="primary"
+                        thumbIcon={({ isSelected, className }) =>
+                            isSelected ? (
+                                <LiaGhostSolid className={className} />
+                            ) : (
+                                <CgDarkMode className={className} />
+                            )
+                        }
+                    >
+                    </Switch>
                 </div>
+
+                <Divider />
 
                 <Input
                     classNames={{
@@ -52,7 +71,7 @@ const Sidebar = () => {
                         <IoMdSearch className="text-2xl text-default-400 pointer-events-none" />
                     }
                 />
-            </div>
+            </div >
 
 
 
@@ -64,13 +83,13 @@ const Sidebar = () => {
                     variant="flat"
                     disallowEmptySelection
                     selectionMode="single"
-                    selectedKeys={selectedKeys}
-                    onSelectionChange={setSelectedKeys}
-                    
+                    selectedKeys={selectedConversation}
+                    onSelectionChange={(e)=>dispatch(selectConversation(e.currentKey))}
+
                 >
                     {
                         data.map((item, index) => (
-                            <ListboxItem className='gap-0 rounded-none p-3 border-b-[.01px]' key={index}>
+                            <ListboxItem showDivider className='gap-0 rounded-none p-3' key={index}>
                                 <p>{item.message}</p>
                             </ListboxItem>
                         ))
@@ -78,8 +97,7 @@ const Sidebar = () => {
                 </Listbox>
 
             </div>
-            {/* </div> */}
-            <Body/>
+
 
         </>
     )
