@@ -7,7 +7,7 @@ export default function Body() {
     return(
         <>
             <Button color="primary" onClick={()=> dispatch(tootgleTheme())}>
-                Button
+                Dark mode
             </Button>
         </>
     )
