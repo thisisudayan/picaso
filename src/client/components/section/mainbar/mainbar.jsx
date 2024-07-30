@@ -1,37 +1,17 @@
+import React, { useRef, useState } from 'react'
 import { Avatar, Button, Card, CardBody, Divider, Input } from '@nextui-org/react'
-import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectConversation } from '../sidebar/sidebarSlice'
-import { IoIosArrowRoundBack, IoIosSend, IoMdArrowRoundBack } from "react-icons/io";
+import { IoIosArrowRoundBack, IoIosSend } from "react-icons/io"
 
 const Mainbar = () => {
-    let type
     const isDesktopMode = useSelector((state) => state.app.desktopMode)
     const dispatch = useDispatch()
     const [data, setData] = useState([])
     const inputRef = useRef(null)
-    const bodyRef = useRef()
-    const handleSendClick = () => {
-        const query = {
-            question: true,
-            body: e.target.value
-        }
-
-        const res = {
-            question: false,
-            body: e.target.value
-        }
-        setData([...data, query, res]);
-        inputRef.current.value = ''
-        console.log(data)
-        bodyRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
-    }
-
+    const bodyRef = useRef(null)
 
     const handleKeyEnter = (value) => {
-
-
-
         const query = {
             question: true,
             body: value
@@ -42,16 +22,11 @@ const Mainbar = () => {
             body: value
         }
         setData([...data, query, res])
-        console.log(data)
-        bodyRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })            // console.log(bodyRef.scrollTop)
-        // setData([...data, res])
-        // console.log(data)
-
-
-
-
+        setTimeout(() => {
+            bodyRef.current.scrollTop = bodyRef.current.scrollHeight
+            inputRef.current.value = ''
+          }, 0);
     }
-    console.log(data)
     return (
 
 
@@ -63,22 +38,20 @@ const Mainbar = () => {
                         <IoIosArrowRoundBack size={25} />
                     </Button>
                 }
-                <h3 className='text-xl whitespace-nowrap overflow-hidden text-ellipsis'>This is AI Image generating apps</h3>
+                <h3 className='text-xl whitespace-nowrap overflow-hidden text-ellipsis'>Transform Words into Art</h3>
             </div>
             <Divider />
-            <div className='overflow-auto h-full' ref={bodyRef}>
-                <div className='flex flex-col flex-1 w-full gap-3 p-3'>
-
+            <div className='overflow-y-auto h-full ' ref={bodyRef}>
+                <div className='flex flex-col flex-1 w-full gap-3 p-3' >
                     {
                         data && data.map((item, index) => (
-                            <Card key={index} className={`${item.question ? 'ml-auto' : 'mr-auto'} ${item.question && 'bg-primary-50' } max-w-[80%]`}>
+                            <Card key={index} className={`${item.question ? 'ml-auto' : 'mr-auto'} ${item.question && 'bg-primary-50'} max-w-[80%]`}>
                                 <CardBody>
                                     <p>{item.body}</p>
                                 </CardBody>
                             </Card>
                         ))
                     }
-
                 </div>
             </div>
             <Divider />

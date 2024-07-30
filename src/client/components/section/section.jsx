@@ -1,10 +1,8 @@
-
-import Sidebar from "./sidebar/sidebar";
+import { useSelector } from "react-redux";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
+import Sidebar from "./sidebar/sidebar";
 import Mainbar from "./mainbar/mainbar";
-import { useSelector } from "react-redux";
-import { useRef } from "react";
 
 
 export default function Section() {
@@ -15,7 +13,7 @@ export default function Section() {
     return (
         <>
             <Allotment>
-                <Allotment.Pane maxSize={350} visible={selectedConversation === null || isDesktopMode ? true : false}>
+                <Allotment.Pane maxSize={isDesktopMode?300:400} visible={selectedConversation === null || isDesktopMode ? true : false}>
                     <Sidebar />
                 </Allotment.Pane>
                 <Allotment.Pane snap visible={selectedConversation !== null || isDesktopMode ? true : false}>
