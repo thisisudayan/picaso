@@ -1,12 +1,22 @@
 import Section from "./components/section/section";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+import { isDesktopMode } from "./AppSlice";
 
 function App() {
   const darkTheme = useSelector((state) => state.section.darkTheme)
+  const mainRef = useRef()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    mainRef.current.offsetWidth > 400 ? dispatch(isDesktopMode(true)) : dispatch(isDesktopMode(false))
+    console.log(mainRef.current.offsetWidth)
+  }, [mainRef.current])
   return (
-    <main className={`${darkTheme ? 'dark' : 'light'} text-foreground bg-background h-dvh`}>
-      <Section />
-    </main>
+    <>
+      <main ref={mainRef} className={`${darkTheme ? 'dark' : 'light'} text-foreground bg-background h-dvh`}>
+        <Section />
+      </main>
+    </>
   );
 }
 
