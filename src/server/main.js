@@ -2,7 +2,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import path from "path";
 import bodyParser from "body-parser";
-
+import { mongoose } from "./db.js";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
