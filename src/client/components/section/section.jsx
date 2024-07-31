@@ -6,21 +6,16 @@ import Mainbar from "./mainbar/mainbar";
 
 
 export default function Section() {
-
     const selectedConversation = useSelector((state) => state.sidebar.conversationKey)
     const isDesktopMode = useSelector((state)=>state.app.desktopMode)
-
     return (
-        <>
-            <Allotment>
-                <Allotment.Pane maxSize={isDesktopMode?300:1200} visible={selectedConversation === null || isDesktopMode ? true : false}>
-                    <Sidebar />
-                </Allotment.Pane>
-                <Allotment.Pane snap visible={selectedConversation !== null || isDesktopMode ? true : false}>
-                    <Mainbar />
-                </Allotment.Pane>
-            </Allotment>
-
-        </>
+        <Allotment>
+            <Allotment.Pane maxSize={isDesktopMode?300:1200} visible={selectedConversation === null || isDesktopMode ? true : false}>
+                <Sidebar />
+            </Allotment.Pane>
+            <Allotment.Pane snap visible={selectedConversation !== null || isDesktopMode ? true : false}>
+                <Mainbar />
+            </Allotment.Pane>
+        </Allotment>
     )
 }

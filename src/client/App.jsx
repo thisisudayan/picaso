@@ -9,14 +9,11 @@ function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     mainRef.current.offsetWidth > 400 ? dispatch(isDesktopMode(true)) : dispatch(isDesktopMode(false))
-    console.log(mainRef.current.offsetWidth)
   }, [mainRef.current])
   return (
-    <>
-      <main ref={mainRef} className={`${darkTheme ? 'dark' : 'light'} text-foreground bg-background h-dvh`}>
-        <Section />
-      </main>
-    </>
+    <main ref={mainRef} className={`${darkTheme ? 'dark' : 'light'} text-foreground bg-background h-dvh`}>
+      <Section />
+    </main>
   );
 }
 

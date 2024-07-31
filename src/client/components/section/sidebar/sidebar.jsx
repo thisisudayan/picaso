@@ -6,12 +6,11 @@ import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
 
 const Sidebar = () => {
-
     const conversations = useSelector((state)=> state.sidebar.conversations)
     const dispatch = useDispatch();
 
     return (
-        <>
+        <div>
             <div className='p-3 flex flex-row justify-between items-center'>
                 <span className='text-xl whitespace-nowrap overflow-hidden text-ellipsis'>Picaso</span>
                 <Switch
@@ -29,9 +28,7 @@ const Sidebar = () => {
                 >
                 </Switch>
             </div>
-
             <Divider />
-
             <Input
                 className='my-3 w-11/12 mx-auto'
                 placeholder="Search"
@@ -44,19 +41,17 @@ const Sidebar = () => {
                 className='p-0'
                 aria-label="Single selection example"
                 variant="flat"
-                selectionMode="single"
                 onSelectionChange={(e) => dispatch(selectConversation(e.currentKey))}
             >
                 {
                     conversations.map((item, index) => (
-                        <ListboxItem textValue={item.title} showDivider className='gap-0 rounded-none p-3' key={item.id}>
+                        <ListboxItem textValue={item.title} showDivider className='gap-0 rounded-none p-3 m-0' key={item._id}>
                             <p className='whitespace-nowrap overflow-hidden text-ellipsis'>{item.title}</p>
                         </ListboxItem>
                     ))
                 }
             </Listbox>
-
-        </>
+        </div>
     )
 }
 export default Sidebar
