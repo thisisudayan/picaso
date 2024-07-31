@@ -49,7 +49,7 @@ const Sidebar = () => {
             >
                 {
                     conversations.map((item, index) => (
-                        <ListboxItem showDivider className='gap-0 rounded-none p-3' key={item.id}>
+                        <ListboxItem textValue={item.title} showDivider className='gap-0 rounded-none p-3' key={item.id}>
                             <p className='whitespace-nowrap overflow-hidden text-ellipsis'>{item.title}</p>
                         </ListboxItem>
                     ))

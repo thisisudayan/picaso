@@ -16,7 +16,7 @@ app.get("/hello", (req, res) => {
 
 
 app.post("/v1/prompt", async(req, res) => {
-  console.log(req.body);
+  const {question,body} = req.body.prompt
   res.json({
     id:'dfgfhg',
     title:"Create a beautiful potrait",
@@ -30,8 +30,8 @@ app.post("/v1/prompt", async(req, res) => {
           "https://picsum.photos/200/300",
           "https://picsum.photos/200/300",
         ],
-        question: false,
-        body: 'Hello World'
+        question: question,
+        body: body
       }
     ]
   })
