@@ -13,7 +13,7 @@ export default function Section() {
     return (
         <>
             <Allotment>
-                <Allotment.Pane maxSize={isDesktopMode?300:400} visible={selectedConversation === null || isDesktopMode ? true : false}>
+                <Allotment.Pane maxSize={isDesktopMode?300:1200} visible={selectedConversation === null || isDesktopMode ? true : false}>
                     <Sidebar />
                 </Allotment.Pane>
                 <Allotment.Pane snap visible={selectedConversation !== null || isDesktopMode ? true : false}>

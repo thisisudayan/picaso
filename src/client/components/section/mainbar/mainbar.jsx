@@ -1,32 +1,42 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, Button, Card, CardBody, Divider, Input } from '@nextui-org/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectConversation } from '../sidebar/sidebarSlice'
+import { selectConversation, setConversation } from '../sidebar/sidebarSlice'
 import { IoIosArrowRoundBack, IoIosSend } from "react-icons/io"
+import axios from 'axios';
 
 const Mainbar = () => {
-    const isDesktopMode = useSelector((state) => state.app.desktopMode)
+    const isDesktopMode = useSelector((state) => state.app.desktopMode);
+    const conversationKey = useSelector((state) => state.sidebar.conversationKey)
+    const conversations = useSelector((state) => state.sidebar.conversations)
+    const filteredConversation = conversations.filter((c)=>c.id===conversationKey)??null
+    const selectedConversation = filteredConversation[0]??null
+    const messages = selectedConversation?.messages ?? []
     const dispatch = useDispatch()
     const [data, setData] = useState([])
     const inputRef = useRef(null)
     const bodyRef = useRef(null)
 
     const handleKeyEnter = (value) => {
-        const query = {
-            question: true,
-            body: value
-        }
-
-        const res = {
-            question: false,
-            body: value
-        }
-        setData([...data, query, res])
-        setTimeout(() => {
-            bodyRef.current.scrollTop = bodyRef.current.scrollHeight
-            inputRef.current.value = ''
-          }, 0);
+        sendPrompt(value)
     }
+
+    const sendPrompt = (body) => {
+        const prompt = {
+            conversation: selectedConversation?.id,
+            question: true,
+            body: body
+        }
+        axios.post("/v1/prompt", {prompt})
+        .then((res)=>{
+            dispatch(setConversation(res.data))
+        })
+    }
+
+    const hello = ()=>{
+        console.log(conversations)
+    }
+
     return (
 
 
@@ -38,14 +48,15 @@ const Mainbar = () => {
                         <IoIosArrowRoundBack size={25} />
                     </Button>
                 }
-                <h3 className='text-xl whitespace-nowrap overflow-hidden text-ellipsis'>Transform Words into Art</h3>
+                <h3 className='text-xl whitespace-nowrap overflow-hidden text-ellipsis'>{selectedConversation?.title ?? 'New Chat'}</h3>
             </div>
             <Divider />
+            <button onClick={hello}>click</button>
             <div className='overflow-y-auto h-full ' ref={bodyRef}>
                 <div className='flex flex-col flex-1 w-full gap-3 p-3' >
                     {
-                        data && data.map((item, index) => (
-                            <Card key={index} className={`${item.question ? 'ml-auto' : 'mr-auto'} ${item.question && 'bg-primary-50'} max-w-[80%]`}>
+                        messages && messages.map((item, index) => (
+                            <Card key={item.id} className={`${item.question ? 'ml-auto' : 'mr-auto'} ${item.question && 'bg-primary-50'} max-w-[80%]`}>
                                 <CardBody>
                                     <p>{item.body}</p>
                                 </CardBody>

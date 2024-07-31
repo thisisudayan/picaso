@@ -5,30 +5,9 @@ import { selectConversation } from './sidebarSlice';
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
 
-const data = [
-    {
-
-        message: "Hi Udayan this is newly make. check it out..!"
-    },
-    {
-
-        message: "Udayan agrabad ai tara"
-    },
-    {
-
-        message: "Bhai deshe ashlam"
-    },
-    {
-
-        message: "Udayan ! agrabad darai achi. ekhon ber how!"
-    },
-
-]
-
-
 const Sidebar = () => {
 
-    const selectedConversation = useSelector((state) => state.sidebar.conversationKey)
+    const conversations = useSelector((state)=> state.sidebar.conversations)
     const dispatch = useDispatch();
 
     return (
@@ -54,9 +33,6 @@ const Sidebar = () => {
             <Divider />
 
             <Input
-                // classNames={{
-                //     inputWrapper: 'rounded-sm bg-[primary] border-1 border-[primary]',
-                // }}
                 className='my-3 w-11/12 mx-auto'
                 placeholder="Search"
                 startContent={
@@ -66,19 +42,15 @@ const Sidebar = () => {
             <Divider />
             <Listbox
                 className='p-0'
-                color="primary"
                 aria-label="Single selection example"
                 variant="flat"
-                disallowEmptySelection
                 selectionMode="single"
-                selectedKeys={selectedConversation}
                 onSelectionChange={(e) => dispatch(selectConversation(e.currentKey))}
-
             >
                 {
-                    data.map((item, index) => (
-                        <ListboxItem showDivider className='gap-0 rounded-none p-3' key={index}>
-                            <p className='whitespace-nowrap overflow-hidden text-ellipsis'>{item.message}</p>
+                    conversations.map((item, index) => (
+                        <ListboxItem showDivider className='gap-0 rounded-none p-3' key={item.id}>
+                            <p className='whitespace-nowrap overflow-hidden text-ellipsis'>{item.title}</p>
                         </ListboxItem>
                     ))
                 }
