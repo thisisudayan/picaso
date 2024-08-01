@@ -8,6 +8,7 @@ const appSlice = createSlice({
   reducers: {
     isDesktopMode: ((state,action) => {
         state.desktopMode = action.payload;
+        console.log(state.desktopMode)
     })
   }
 })

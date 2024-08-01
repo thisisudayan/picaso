@@ -1,32 +1,38 @@
-import { Divider, Input, Listbox, ListboxItem, Switch } from '@nextui-org/react'
+import { Button, Divider, Input, Listbox, ListboxItem, ScrollShadow, Switch } from '@nextui-org/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { tootgleTheme } from "../sectionSlice";
 import { selectConversation } from './sidebarSlice';
-import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
+import { MdDarkMode, MdOutlineDarkMode, MdAddComment } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
 
+
 const Sidebar = () => {
-    const conversations = useSelector((state)=> state.sidebar.conversations)
+    const conversations = useSelector((state) => state.sidebar.conversations)
     const dispatch = useDispatch();
 
     return (
-        <div>
+        <div className='h-full'>
             <div className='p-3 flex flex-row justify-between items-center'>
                 <span className='text-xl whitespace-nowrap overflow-hidden text-ellipsis'>Picaso</span>
-                <Switch
-                    onClick={() => dispatch(tootgleTheme())}
-                    defaultSelected
-                    size="sm"
-                    color='secondary'
-                    thumbIcon={({ isSelected, className }) =>
-                        isSelected ? (
-                            <MdOutlineDarkMode className={className} />
-                        ) : (
-                            <MdDarkMode className={className} />
-                        )
-                    }
-                >
-                </Switch>
+                <div className='flex items-center gap-2'>
+                    <Button isIconOnly radius='full' size='sm' variant="light" onClick={() => dispatch(selectConversation(null))}>
+                        <MdAddComment size={15} />
+                    </Button>
+                    <Switch
+                        onClick={() => dispatch(tootgleTheme())}
+                        defaultSelected
+                        size="sm"
+                        color='secondary'
+                        thumbIcon={({ isSelected, className }) =>
+                            isSelected ? (
+                                <MdOutlineDarkMode className={className} />
+                            ) : (
+                                <MdDarkMode className={className} />
+                            )
+                        }
+                    >
+                    </Switch>
+                </div>
             </div>
             <Divider />
             <Input
@@ -37,20 +43,25 @@ const Sidebar = () => {
                 }
             />
             <Divider />
-            <Listbox
-                className='p-0'
-                aria-label="Single selection example"
-                variant="flat"
-                onSelectionChange={(e) => dispatch(selectConversation(e.currentKey))}
-            >
-                {
-                    conversations.map((item, index) => (
-                        <ListboxItem textValue={item.title} showDivider className='gap-0 rounded-none p-3 m-0' key={item._id}>
-                            <p className='whitespace-nowrap overflow-hidden text-ellipsis'>{item.title}</p>
-                        </ListboxItem>
-                    ))
-                }
-            </Listbox>
+            <ScrollShadow hideScrollBar className="h-[400px]">
+                <Listbox
+
+                    className='p-0'
+                    aria-label="Single selection example"
+                    variant="flat"
+                    selectionMode='single'
+                    onSelectionChange={(e) =>
+                        dispatch(selectConversation(e.currentKey))}
+                >
+                    {
+                        conversations.map((item, index) => (
+                            <ListboxItem textValue={item.title} showDivider className='gap-0 rounded-none p-3 m-0' key={item._id}>
+                                <p className='whitespace-nowrap overflow-hidden text-ellipsis'>{item.title}</p>
+                            </ListboxItem>
+                        ))
+                    }
+                </Listbox>
+            </ScrollShadow>
         </div>
     )
 }

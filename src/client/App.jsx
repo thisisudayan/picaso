@@ -2,6 +2,7 @@ import Section from "./components/section/section";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import { isDesktopMode } from "./AppSlice";
+import LoginPage from "./components/section/login";
 
 function App() {
   const darkTheme = useSelector((state) => state.section.darkTheme)
@@ -13,6 +14,7 @@ function App() {
   return (
     <main ref={mainRef} className={`${darkTheme ? 'dark' : 'light'} text-foreground bg-background h-dvh`}>
       <Section />
+      {/* <LoginPage/> */}
     </main>
   );
 }

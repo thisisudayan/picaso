@@ -4,10 +4,12 @@ const sidebarSlice = createSlice({
   name: 'sidebar',
   initialState: {
     conversationKey: null,
-    conversations: []
+    conversations: [],
+    responseImageQuantity:1
   },
   reducers: {
     selectConversation: ((state, action) => {
+      console.log('inside reducer')
       state.conversationKey = action.payload
     }),
     setConversation: ((state, action) => {
@@ -23,9 +25,12 @@ const sidebarSlice = createSlice({
           }
         })
       }
+    }),
+    setResponseImageQuantity:((state,action)=>{
+      state.responseImageQuantity = action.payload
     })
   }
 })
 
-export const { selectConversation, setConversation } = sidebarSlice.actions
+export const { selectConversation, setConversation,setResponseImageQuantity } = sidebarSlice.actions
 export default sidebarSlice.reducer;
