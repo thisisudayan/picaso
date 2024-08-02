@@ -4,6 +4,7 @@ const sectionSlice = createSlice({
   name: 'section',
   initialState: {
     darkTheme: false,
+    selectedNav: true,
   },
   reducers: {
     tootgleTheme: ((state) => {

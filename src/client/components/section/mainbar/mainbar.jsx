@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, Button, Card, CardBody, Divider, Image, Input, Select, SelectItem } from '@nextui-org/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectConversation, setConversation, setResponseImageQuantity } from '../sidebar/sidebarSlice'
+import { selectConversation, setConversation, setResponseImageQuantity, setToggleNav } from '../sidebar/sidebarSlice'
 import { IoIosArrowRoundBack, IoIosSend } from "react-icons/io"
 import { IoImageOutline } from "react-icons/io5";
 import axios from 'axios';
@@ -15,9 +15,6 @@ const keys = [
     { key: 4, label: "4" },
     { key: 5, label: "5" },
     { key: 6, label: "6" },
-    { key: 7, label: "7" },
-    { key: 8, label: "8" },
-    { key: 9, label: "9" },
 ];
 const Mainbar = () => {
     const isDesktopMode = useSelector((state) => state.app.desktopMode);
@@ -69,7 +66,7 @@ const Mainbar = () => {
         }, 0);
     }
     const logReader = () => {
-        selectedConversation
+        console.log(isDesktopMode)
     }
 
     return (
@@ -77,7 +74,11 @@ const Mainbar = () => {
             <div className='p-3 flex items-center gap-2'>
                 {
                     !isDesktopMode &&
-                    <Button isIconOnly radius='full' size='sm' variant='light' aria-label="Back" onClick={() => dispatch(selectConversation(null))}>
+                    <Button isIconOnly radius='full' size='sm' variant='light' aria-label="Back" onClick={() =>{
+                         dispatch(selectConversation(null))
+                         if(!isDesktopMode)dispatch(setToggleNav(1))
+
+                         }}>
                         <IoIosArrowRoundBack size={25} />
                     </Button>
                 }

@@ -28,7 +28,7 @@ const Sidebar = () => {
                 <div className='flex items-center gap-2'>
                     <Button isIconOnly radius='full' size='sm' variant="light" onClick={() => {
                         dispatch(selectConversation(null))
-                        if(!isDesktopMode) dispatch(setToggleNav())
+                        if(!isDesktopMode) dispatch(setToggleNav(2))
                         }}>
                         <MdAddComment size={15} />
                     </Button>
@@ -66,8 +66,13 @@ const Sidebar = () => {
                     aria-label="Single selection example"
                     variant="flat"
                     selectionMode='single'
-                    onSelectionChange={(e) =>
-                        dispatch(selectConversation(e.currentKey))}
+                    onSelectionChange={(e) =>{
+                        dispatch(selectConversation(e.currentKey))
+                        if(!isDesktopMode) dispatch(setToggleNav(2))
+                            else dispatch(setToggleNav(3))
+                    }
+                    }
+                        
                 >
                     {
                         filteredItems ?

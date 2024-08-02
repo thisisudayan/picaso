@@ -6,7 +6,7 @@ const sidebarSlice = createSlice({
     conversationKey: null,
     conversations: [],
     responseImageQuantity:1,
-    toggleNav:false
+    toggleNav:3
   },
   reducers: {
     selectConversation: ((state, action) => {
@@ -30,7 +30,7 @@ const sidebarSlice = createSlice({
       state.responseImageQuantity = action.payload
     }),
     setToggleNav:((state,action)=>{
-      state.toggleNav=!state.toggleNav
+      state.toggleNav=  action.payload
     })
   }
 })

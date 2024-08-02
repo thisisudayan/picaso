@@ -35,7 +35,32 @@ app.post("/v1/prompt", async (req, res) => {
       },
     });
     const snapshot = await newMessage.save();
-    res.json({ error: false, isNew: true, data: snapshot })
+
+    const snapshot2 = await ConversationModel.findOneAndUpdate({
+      _id: snapshot._id
+    },
+      {
+        $push: {
+          messages: {
+            question: false,
+            body: body,
+            //replaced links with handcoded links
+            attachments: links
+            // [
+            //   "https://picsum.photos/200/300",
+            //   "https://picsum.photos/200/300",
+            //   "https://picsum.photos/200/300",
+            //   "https://picsum.photos/200/300",
+            //   // "https://picsum.photos/200/300",
+            //   // "https://picsum.photos/200/300",
+            //   // "https://picsum.photos/200/300",
+
+            // ]
+          }
+        }
+      }, { new: true })
+
+    res.json({ error: false, isNew: true, data: snapshot2 })
   } else {
     const snapshot = await ConversationModel.findOneAndUpdate({
       _id: id
