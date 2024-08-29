@@ -16,6 +16,7 @@ app.get("/hello", (req, res) => {
 });
 
 
+
 app.post("/v1/prompt", async (req, res) => {
   const { id, attachments, question, body, imgqty } = req.body.prompt;
   //generating false image qty from here -----------
@@ -97,6 +98,17 @@ app.post("/v1/prompt", async (req, res) => {
     res.json({ error: false, isNew: false, data: snapshot })
   }
 })
+// get all the conversation from db
+app.get("/v1/conversations",async(req,res)=>{
+  try {
+    const conversations = await ConversationModel.find()
+    res.status(200).send(conversations)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
+
+
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),
 );
