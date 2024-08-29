@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Divider, Input, Listbox, ListboxItem, ScrollShadow, Switch } from '@nextui-org/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { tootgleTheme } from "../sectionSlice";
-import { selectConversation, setToggleNav } from './sidebarSlice';
+import { selectConversation, setAllConversations, setConversation, setToggleNav } from './sidebarSlice';
 import { MdDarkMode, MdOutlineDarkMode, MdAddComment } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
+import axios from "axios";
 
 
 const Sidebar = () => {
     const [searchText, setSearchText] = useState("")
     const conversations = useSelector((state) => state.sidebar.conversations)
-    const isDesktopMode = useSelector((state)=>state.app.desktopMode)
+    const isDesktopMode = useSelector((state) => state.app.desktopMode)
     const dispatch = useDispatch();
     const handleSearch = (event) => {
         setSearchText(event.target.value);
@@ -19,8 +20,12 @@ const Sidebar = () => {
     const filteredItems = conversations.filter(item =>
         item.title.toLowerCase().includes(searchText.toLowerCase())
     );
-
-    //  
+    useEffect(() => {
+        axios.get('http://localhost:3000/v1/conversations')
+            .then((res) => {
+                dispatch(setAllConversations(res.data))
+            })
+    }, [])
     return (
         <div className='h-full'>
             <div className='p-3 flex flex-row justify-between items-center'>
@@ -28,8 +33,8 @@ const Sidebar = () => {
                 <div className='flex items-center gap-2'>
                     <Button isIconOnly radius='full' size='sm' variant="light" onClick={() => {
                         dispatch(selectConversation(null))
-                        if(!isDesktopMode) dispatch(setToggleNav(2))
-                        }}>
+                        if (!isDesktopMode) dispatch(setToggleNav(2))
+                    }}>
                         <MdAddComment size={15} />
                     </Button>
                     <Switch
@@ -66,13 +71,14 @@ const Sidebar = () => {
                     aria-label="Single selection example"
                     variant="flat"
                     selectionMode='single'
-                    onSelectionChange={(e) =>{
+                    onSelectionChange={(e) => {
                         dispatch(selectConversation(e.currentKey))
-                        if(!isDesktopMode) dispatch(setToggleNav(2))
-                            else dispatch(setToggleNav(3))
+                        if (!isDesktopMode) dispatch(setToggleNav(2))
+                        else dispatch(setToggleNav(3))
+                        console.log(e.currentKey)
                     }
                     }
-                        
+
                 >
                     {
                         filteredItems ?
