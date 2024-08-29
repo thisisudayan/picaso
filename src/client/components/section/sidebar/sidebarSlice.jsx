@@ -26,6 +26,9 @@ const sidebarSlice = createSlice({
         })
       }
     }),
+    setAllConversations:((state,action)=>{
+      state.conversations = action.payload
+    }),
     setResponseImageQuantity:((state,action)=>{
       state.responseImageQuantity = action.payload
     }),
@@ -35,5 +38,5 @@ const sidebarSlice = createSlice({
   }
 })
 
-export const { selectConversation, setConversation,setResponseImageQuantity,setToggleNav } = sidebarSlice.actions
+export const { selectConversation, setConversation,setResponseImageQuantity,setToggleNav,setAllConversations } = sidebarSlice.actions
 export default sidebarSlice.reducer;

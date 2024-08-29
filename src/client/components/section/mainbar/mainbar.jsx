@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Avatar, Button, Card, CardBody, Divider, Image, Input, Select, SelectItem, Skeleton } from '@nextui-org/react'
+import { Avatar, Button, Card, CardBody, Divider, Image, Input, Select, SelectItem, Skeleton,useDisclosure } from '@nextui-org/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectConversation, setConversation, setResponseImageQuantity, setToggleNav } from '../sidebar/sidebarSlice'
 import { IoIosArrowRoundBack, IoIosSend } from "react-icons/io"
@@ -7,6 +7,8 @@ import { IoImageOutline } from "react-icons/io5";
 import axios from 'axios';
 import { CgAttachment } from 'react-icons/cg'
 import ImageCard from '../../imageCard/imageCard'
+import Modal from '../../modal/modal'
+import ModalView from '../../modal/modal'
 
 const key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const keys = [
@@ -18,6 +20,7 @@ const keys = [
     { key: 6, label: "6" },
 ];
 const Mainbar = () => {
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const isDesktopMode = useSelector((state) => state.app.desktopMode);
     const conversationKey = useSelector((state) => state.sidebar.conversationKey)
     const conversations = useSelector((state) => state.sidebar.conversations)
@@ -35,6 +38,7 @@ const Mainbar = () => {
 
     useEffect(() => {
         inputRef.current.focus();
+        setLoading(false)
     }, [conversationKey])
 
     const handleKeyEnter = (value) => {
@@ -57,11 +61,11 @@ const Mainbar = () => {
             .then((res) => {
                 dispatch(setConversation(res.data))
                 handleResetData()
-
-            })
-            .finally(() => {
                 setLoading(false)
             })
+            // .finally(() => {
+               
+            // })
     }
     const handleResetData = () => {
         setTimeout(() => {
@@ -76,7 +80,7 @@ const Mainbar = () => {
     }
     const handleClick = (id) => {
         alert(id);
-      };
+    };
 
     return (
         <div className='flex flex-col h-full'>
@@ -95,6 +99,7 @@ const Mainbar = () => {
             </div>
             <Divider />
             {/* <button onClick={logReader}>click</button> */}
+            <Button onPress={onOpen}>Open Modal</Button>
             <div className='overflow-y-auto h-full ' ref={bodyRef}>
                 <div className='flex flex-col flex-1 w-full gap-3 p-3' >
                     {
@@ -129,7 +134,7 @@ const Mainbar = () => {
                                             </Card>
                                         }
                                     </div>
-                                    <div onClick={()=>handleClick(item._id)} className={`${item.question ? 'ml-auto' : 'mr-auto'} relative`}>
+                                    <div onClick={() => handleClick(item._id)} className={`${item.question ? 'ml-auto' : 'mr-auto'} relative`}>
                                         {
                                             renderImageCards()
                                         }
@@ -160,6 +165,7 @@ const Mainbar = () => {
                     <IoIosSend size={25} />
                 </Button>
             </div>
+            <ModalView isOpen={isOpen} onOpenChange={onOpenChange}/>
         </div>
 
     )
