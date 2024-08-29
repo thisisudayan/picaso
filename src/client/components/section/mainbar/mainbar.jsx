@@ -95,6 +95,10 @@ const Mainbar = () => {
             </div>
             <Divider />
             {/* <button onClick={logReader}>click</button> */}
+<<<<<<< Updated upstream
+=======
+            {/* <Button onPress={onOpen}>Open Modal</Button> */}
+>>>>>>> Stashed changes
             <div className='overflow-y-auto h-full ' ref={bodyRef}>
                 <div className='flex flex-col flex-1 w-full gap-3 p-3' >
                     {
