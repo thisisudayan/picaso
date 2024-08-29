@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = 'mongodb://localhost:27017/picaso';
+const MONGODB_URI = 'mongodb+srv://picasobd:RvaTNRwP5RlAtvKQ@cluster0.1oaa6jt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// const MONGODB_URI = 'mongodb://localhost:27017/';
 
 mongoose.connect(MONGODB_URI);
 

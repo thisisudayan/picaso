@@ -4,49 +4,36 @@ const sidebarSlice = createSlice({
   name: 'sidebar',
   initialState: {
     conversationKey: null,
-    conversations: [
-      {
-        id: 'dfgfhg',
-        title: "Create a beautiful potrait",
-        messages: [
-          {
-            id: 'eig840d',
-            attachments: [],
-            question: true,
-            body: 'generate some picture related to nature'
-          },
-          {
-            id: '346jsd6',
-            attachments: [
-              "https://picsum.photos/200/300",
-              "https://picsum.photos/200/300",
-              "https://picsum.photos/200/300",
-              "https://picsum.photos/200/300",
-              "https://picsum.photos/200/300",
-              "https://picsum.photos/200/300",
-              "https://picsum.photos/200/300",
-
-            ],
-            question: false,
-            body: 'here are some nature related pictures for you'
-          }
-        ]
-      }
-    ]
+    conversations: [],
+    responseImageQuantity:1,
+    toggleNav:3
   },
   reducers: {
     selectConversation: ((state, action) => {
       state.conversationKey = action.payload
     }),
     setConversation: ((state, action) => {
-      state.conversations = state.conversations.filter((item) => {
-        return item.id === action.payload.id
-
-      })
-
+      if (action.payload.isNew) {
+        state.conversations = [...state.conversations,action.payload.data];
+        state.conversationKey = action.payload.data._id
+      } else {
+        state.conversations = state.conversations.map((item) => {
+          if(item._id == action.payload.data._id) {
+            return action.payload.data
+          } else {
+            return item
+          }
+        })
+      }
+    }),
+    setResponseImageQuantity:((state,action)=>{
+      state.responseImageQuantity = action.payload
+    }),
+    setToggleNav:((state,action)=>{
+      state.toggleNav=  action.payload
     })
   }
 })
 
-export const { selectConversation, setConversation } = sidebarSlice.actions
+export const { selectConversation, setConversation,setResponseImageQuantity,setToggleNav } = sidebarSlice.actions
 export default sidebarSlice.reducer;

@@ -1,25 +1,5 @@
 import mongoose from 'mongoose';
 
-
-// {
-//   id:'dfgfhg',
-//   title:"Create a beautiful potrait",
-//   messages: [
-//     {
-//       id:'sfadagag',
-//       attachments:[
-//         "https://picsum.photos/200/300",
-//         "https://picsum.photos/200/300",
-//         "https://picsum.photos/200/300",
-//         "https://picsum.photos/200/300",
-//         "https://picsum.photos/200/300",
-//       ],
-//       question: false,
-//       body: 'Hello World'
-//     }
-//   ]
-// }
-
 const messageSchema = new mongoose.Schema({
   question: {
     type: Boolean,
@@ -39,11 +19,11 @@ const messageSchema = new mongoose.Schema({
 const conversationSchema = new mongoose.Schema({
   author: {
     type: String,
-    required: true,
+    required: false,
   },
   title: {
     type: String,
-    required: true,
+    required: false,
     default: 'Imagine'
   },
   messages: {
